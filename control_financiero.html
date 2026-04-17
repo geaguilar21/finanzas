@@ -3,120 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control Financiero — Gerardo Aguilar</title>
+<title>💰 Finanzas — Gerardo</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #ffffff;
-    --bg2: #f5f5f5;
-    --bg3: #efefef;
-    --text: #1a1a2e;
-    --text2: #555566;
-    --border: #d8d8e0;
-    --green: #0f6e56;
-    --green-l: #e1f5ee;
-    --red: #a32d2d;
-    --red-l: #fcebeb;
-    --amber: #854f0b;
-    --amber-l: #faeeda;
-    --blue: #185fa5;
-    --blue-l: #e6f1fb;
-    --radius: 10px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a2e; --bg2: #22223a; --bg3: #2a2a42;
-      --text: #eeeef5; --text2: #9999bb; --border: #3a3a55;
-      --green-l: #0a3d2e; --red-l: #3d1414; --amber-l: #3d2a05; --blue-l: #0d2d52;
-    }
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f6f6f8;--bg3:#eeeeef;
+  --text:#1a1a2e;--text2:#66667a;--text3:#99999f;
+  --border:#e0e0e8;
+  --green:#0f6e56;--green-l:#e1f5ee;--green-m:#9fe1cb;
+  --red:#a32d2d;--red-l:#fcebeb;
+  --amber:#854f0b;--amber-l:#faeeda;
+  --blue:#185fa5;--blue-l:#e6f1fb;
+  --purple:#534ab7;--purple-l:#eeedfe;
+  --radius:10px;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#16161f;--bg2:#1e1e2a;--bg3:#252535;--text:#eeeef5;--text2:#9999bb;--text3:#6666aa;--border:#2e2e44;--green-l:#083d2e;--red-l:#3d1414;--amber-l:#3d2a05;--blue-l:#0d2d52;--purple-l:#1e1a52}
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:900px;margin:0 auto;padding:1.5rem 1.25rem 5rem}
 
-  /* Header */
-  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 10px; }
-  .page-title { font-size: 20px; font-weight: 600; color: var(--text); }
-  .page-title span { color: var(--text2); font-weight: 400; font-size: 15px; margin-left: 8px; }
-  select.month-sel { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
+/* Header */
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px}
+.page-title{font-size:19px;font-weight:600}
+.page-title small{font-size:13px;font-weight:400;color:var(--text2);margin-left:8px}
+.top-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+select,input[type="text"],input[type="number"],input[type="date"]{background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;font-family:inherit}
+select:focus,input:focus{outline:none;box-shadow:0 0 0 2px rgba(24,95,165,.25)}
 
-  /* Metric cards */
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
-  .metric { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; }
-  .metric-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text2); margin-bottom: 5px; }
-  .metric-value { font-size: 22px; font-weight: 600; }
-  .c-green { color: var(--green); }
-  .c-red   { color: var(--red); }
-  .c-blue  { color: var(--blue); }
-  .c-amber { color: var(--amber); }
+/* Mes progress bar */
+.mes-bar-wrap{margin-bottom:1.5rem;background:var(--bg2);border-radius:var(--radius);padding:12px 16px}
+.mes-bar-top{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px}
+.mes-bar-bg{height:5px;background:var(--bg3);border-radius:3px}
+.mes-bar-fill{height:5px;border-radius:3px;background:var(--blue);transition:width .4s}
 
-  /* Section card */
-  .section { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1rem; overflow: hidden; }
-  .sec-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid var(--border); }
-  .sec-title { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-green { background: var(--green); }
-  .dot-red   { background: var(--red); }
-  .dot-amber { background: var(--amber); }
-  .sec-total { font-size: 13px; font-weight: 600; color: var(--text2); }
+/* Metric cards */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:var(--bg2);border-radius:var(--radius);padding:13px 15px;position:relative;overflow:hidden}
+.metric-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:4px}
+.metric-value{font-size:21px;font-weight:600}
+.metric-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.c-green{color:var(--green)}.c-red{color:var(--red)}.c-amber{color:var(--amber)}.c-blue{color:var(--blue)}.c-purple{color:var(--purple)}
 
-  /* Table */
-  .tbl-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 480px; }
-  th { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--text2); padding: 8px 14px; text-align: left; font-weight: 500; border-bottom: 1px solid var(--border); background: var(--bg2); }
-  td { padding: 7px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--bg2); }
-  td input, td select { border: none; background: transparent; font-size: 13px; color: var(--text); font-family: inherit; padding: 2px 0; width: 100%; outline: none; }
-  td input[type="number"] { text-align: right; }
-  td input:focus, td select:focus { border-bottom: 1.5px solid var(--blue); }
-  td select option { background: var(--bg); color: var(--text); }
-  .del-btn { cursor: pointer; color: var(--text2); font-size: 16px; padding: 0 4px; user-select: none; transition: color .15s; border: none; background: none; line-height: 1; }
-  .del-btn:hover { color: var(--red); }
-  .add-btn { display: flex; align-items: center; gap: 6px; padding: 9px 14px; font-size: 12px; color: var(--text2); background: transparent; border: none; cursor: pointer; font-family: inherit; width: 100%; transition: background .15s; }
-  .add-btn:hover { background: var(--bg2); color: var(--text); }
+/* Alert badge */
+.alert-bar{background:var(--red-l);border:1px solid #f0c0c0;border-radius:8px;padding:9px 14px;margin-bottom:1rem;font-size:12px;color:var(--red);display:none;align-items:center;gap:8px}
+.alert-bar.show{display:flex}
 
-  /* Progress bar */
-  .prog-wrap { display: flex; align-items: center; gap: 8px; min-width: 100px; }
-  .prog-bg { height: 4px; background: var(--bg3); border-radius: 2px; flex: 1; }
-  .prog-fill { height: 4px; border-radius: 2px; transition: width .3s; }
-  .prog-lbl { font-size: 11px; color: var(--text2); min-width: 28px; text-align: right; }
+/* Section */
+.section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;overflow:hidden}
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border)}
+.sec-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}.dot-red{background:var(--red)}.dot-amber{background:var(--amber)}.dot-blue{background:var(--blue)}.dot-purple{background:var(--purple)}
+.sec-total{font-size:13px;font-weight:600;color:var(--text2)}
 
-  /* Footer */
-  .footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: .75rem; flex-wrap: wrap; }
-  .btn { font-size: 12px; padding: 8px 16px; cursor: pointer; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; transition: background .15s; }
-  .btn:hover { background: var(--bg2); }
-  .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
-  .btn-primary:hover { opacity: .88; }
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:400px}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);padding:7px 14px;text-align:left;font-weight:500;border-bottom:1px solid var(--border);background:var(--bg2)}
+td{padding:7px 14px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg2)}
+td input[type="text"],td input[type="number"],td input[type="date"]{border:none;background:transparent;font-size:13px;color:var(--text);padding:2px 0;width:100%;border-radius:0}
+td input[type="text"]:focus,td input[type="number"]:focus,td input[type="date"]:focus{border-bottom:1.5px solid var(--blue);box-shadow:none}
+td input[type="number"]{text-align:right}
+td select{border:none;background:transparent;font-size:12px;color:var(--text);padding:2px 0;cursor:pointer}
+td select option{background:var(--bg)}
+.del-btn{cursor:pointer;color:var(--text3);font-size:16px;padding:0 4px;user-select:none;border:none;background:none;line-height:1;transition:color .15s}
+.del-btn:hover{color:var(--red)}
+.add-btn{display:flex;align-items:center;gap:6px;padding:9px 14px;font-size:12px;color:var(--text2);background:transparent;border:none;cursor:pointer;font-family:inherit;width:100%;transition:background .15s}
+.add-btn:hover{background:var(--bg2);color:var(--text)}
 
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 999; }
-  .toast.show { opacity: 1; }
+/* Checkbox pagado */
+.chk-wrap{display:flex;align-items:center;gap:8px}
+input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--green)}
+.pagado-label{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500}
+.pagado-si{background:var(--green-l);color:var(--green)}
+.pagado-no{background:var(--red-l);color:var(--red)}
 
-  @media (max-width: 520px) {
-    .hide-sm { display: none; }
-    .metric-value { font-size: 18px; }
-  }
+/* Gastos hormiga — quick entry */
+.hormiga-grid{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border)}
+.hormiga-grid input{padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg2);color:var(--text)}
+.hormiga-add{padding:6px 14px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s}
+.hormiga-add:hover{opacity:.85}
+.hormiga-item{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.hormiga-item:last-of-type{border-bottom:none}
+.hormiga-tag{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--purple-l);color:var(--purple);margin-left:8px}
+
+/* Limit badge */
+.limit-badge{font-size:11px;padding:2px 8px;border-radius:99px;margin-left:6px}
+.limit-ok{background:var(--green-l);color:var(--green)}
+.limit-warn{background:var(--amber-l);color:var(--amber)}
+.limit-over{background:var(--red-l);color:var(--red)}
+
+/* Progress mini */
+.prog-wrap{display:flex;align-items:center;gap:7px;min-width:90px}
+.prog-bg{height:4px;background:var(--bg3);border-radius:2px;flex:1}
+.prog-fill{height:4px;border-radius:2px;transition:width .3s}
+.prog-lbl{font-size:10px;color:var(--text2);min-width:26px;text-align:right}
+
+/* Footer */
+.footer{display:flex;justify-content:flex-end;gap:8px;margin-top:.75rem;flex-wrap:wrap}
+.btn{font-size:12px;padding:8px 15px;cursor:pointer;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;transition:background .15s}
+.btn:hover{background:var(--bg2)}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-primary:hover{opacity:.88}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+
+@media(max-width:540px){.hide-sm{display:none}.metric-value{font-size:17px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <div class="page-header">
-    <div class="page-title">💰 Control Financiero <span id="mes-lbl">Abril 2026</span></div>
-    <select class="month-sel" onchange="setMes(this.value)">
-      <option>Enero 2026</option><option>Febrero 2026</option><option>Marzo 2026</option>
-      <option selected>Abril 2026</option><option>Mayo 2026</option><option>Junio 2026</option>
-      <option>Julio 2026</option><option>Agosto 2026</option><option>Septiembre 2026</option>
-      <option>Octubre 2026</option><option>Noviembre 2026</option><option>Diciembre 2026</option>
-    </select>
+  <!-- Top -->
+  <div class="top">
+    <div class="page-title">💰 Control Financiero <small id="mes-lbl">Abril 2026</small></div>
+    <div class="top-right">
+      <select onchange="setMes(this.value)">
+        <option>Enero 2026</option><option>Febrero 2026</option><option>Marzo 2026</option>
+        <option selected>Abril 2026</option><option>Mayo 2026</option><option>Junio 2026</option>
+        <option>Julio 2026</option><option>Agosto 2026</option><option>Septiembre 2026</option>
+        <option>Octubre 2026</option><option>Noviembre 2026</option><option>Diciembre 2026</option>
+      </select>
+    </div>
   </div>
 
-  <!-- Metrics -->
+  <!-- Progreso del mes -->
+  <div class="mes-bar-wrap">
+    <div class="mes-bar-top">
+      <span>Progreso del mes</span>
+      <span id="dias-lbl">—</span>
+    </div>
+    <div class="mes-bar-bg"><div class="mes-bar-fill" id="mes-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- Alerta -->
+  <div class="alert-bar" id="alert-bar">
+    ⚠️ <span id="alert-txt"></span>
+  </div>
+
+  <!-- Métricas -->
   <div class="metrics">
-    <div class="metric"><div class="metric-label">Ingresos</div><div class="metric-value c-green" id="m-ing">$0.00</div></div>
-    <div class="metric"><div class="metric-label">Gastos</div><div class="metric-value c-red" id="m-gas">$0.00</div></div>
-    <div class="metric"><div class="metric-label">Deudas pendientes</div><div class="metric-value c-amber" id="m-deu">$0.00</div></div>
-    <div class="metric"><div class="metric-label">Balance neto</div><div class="metric-value c-blue" id="m-bal">$0.00</div></div>
+    <div class="metric"><div class="metric-label">Ingresos</div><div class="metric-value c-green" id="m-ing">$0.00</div><div class="metric-sub" id="m-ing-sub">este mes</div></div>
+    <div class="metric"><div class="metric-label">Gastos fijos</div><div class="metric-value c-red" id="m-fij">$0.00</div><div class="metric-sub" id="m-fij-sub">—</div></div>
+    <div class="metric"><div class="metric-label">Gastos hormiga</div><div class="metric-value c-purple" id="m-hor">$0.00</div><div class="metric-sub" id="m-hor-sub">pequeños gastos</div></div>
+    <div class="metric"><div class="metric-label">Otros gastos</div><div class="metric-value c-amber" id="m-gas">$0.00</div></div>
+    <div class="metric"><div class="metric-label">Saldo neto</div><div class="metric-value" id="m-bal">$0.00</div><div class="metric-sub" id="m-bal-sub">disponible</div></div>
   </div>
 
   <!-- INGRESOS -->
@@ -128,22 +164,61 @@
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>Fuente / Descripción</th>
+          <th>Fuente</th>
           <th class="hide-sm">Categoría</th>
           <th class="hide-sm">Fecha</th>
           <th style="text-align:right">Monto</th>
-          <th style="width:32px"></th>
+          <th style="width:30px"></th>
         </tr></thead>
         <tbody id="tb-ing"></tbody>
       </table>
     </div>
-    <button class="add-btn" onclick="add('ing')">+ Agregar ingreso</button>
+    <button class="add-btn" onclick="addIng()">+ Agregar ingreso</button>
   </div>
 
-  <!-- GASTOS -->
+  <!-- GASTOS FIJOS -->
   <div class="section">
     <div class="sec-header">
-      <div class="sec-title"><span class="dot dot-red"></span>Gastos</div>
+      <div class="sec-title"><span class="dot dot-red"></span>Gastos fijos <span id="fijos-check" style="font-size:11px;color:var(--text2);font-weight:400;margin-left:4px"></span></div>
+      <div class="sec-total" id="h-fij">$0.00</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Descripción</th>
+          <th class="hide-sm">Categoría</th>
+          <th style="text-align:center">Pagado</th>
+          <th style="text-align:right">Monto</th>
+          <th style="width:30px"></th>
+        </tr></thead>
+        <tbody id="tb-fij"></tbody>
+      </table>
+    </div>
+    <button class="add-btn" onclick="addFijo()">+ Agregar gasto fijo</button>
+  </div>
+
+  <!-- GASTOS HORMIGA -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-title"><span class="dot dot-purple"></span>Gastos hormiga</div>
+      <div class="sec-total" id="h-hor">$0.00</div>
+    </div>
+    <div class="hormiga-grid">
+      <input type="text" id="hor-desc" placeholder="¿En qué gastaste?" onkeydown="if(event.key==='Enter')addHormiga()">
+      <select id="hor-cat" style="padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:12px">
+        <option>☕ Café</option><option>🍔 Comida rápida</option><option>🚌 Pasaje</option>
+        <option>🛒 Tienda</option><option>🎮 Ocio</option><option>💊 Farmacia</option><option>📦 Otro</option>
+      </select>
+      <input type="number" id="hor-monto" placeholder="$0.00" min="0" step="0.01" style="width:90px;text-align:right;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg2)" onkeydown="if(event.key==='Enter')addHormiga()">
+      <button class="hormiga-add" onclick="addHormiga()">+ Agregar</button>
+    </div>
+    <div id="lista-hormiga"></div>
+  </div>
+
+  <!-- OTROS GASTOS -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-title"><span class="dot dot-amber"></span>Otros gastos</div>
       <div class="sec-total" id="h-gas">$0.00</div>
     </div>
     <div class="tbl-wrap">
@@ -153,12 +228,12 @@
           <th class="hide-sm">Categoría</th>
           <th class="hide-sm">Fecha</th>
           <th style="text-align:right">Monto</th>
-          <th style="width:32px"></th>
+          <th style="width:30px"></th>
         </tr></thead>
         <tbody id="tb-gas"></tbody>
       </table>
     </div>
-    <button class="add-btn" onclick="add('gas')">+ Agregar gasto</button>
+    <button class="add-btn" onclick="addGas()">+ Agregar gasto</button>
   </div>
 
   <!-- DEUDAS -->
@@ -170,196 +245,329 @@
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>Acreedor / Descripción</th>
+          <th>Acreedor</th>
           <th class="hide-sm">Deuda total</th>
           <th>Cuota mensual</th>
           <th>Saldo pendiente</th>
-          <th style="width:32px"></th>
+          <th style="width:30px"></th>
         </tr></thead>
         <tbody id="tb-deu"></tbody>
       </table>
     </div>
-    <button class="add-btn" onclick="add('deu')">+ Agregar deuda</button>
+    <button class="add-btn" onclick="addDeu()">+ Agregar deuda</button>
+  </div>
+
+  <!-- LÍMITES DE ALERTA -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-title"><span class="dot" style="background:#e24b4a"></span>Límites de alerta por categoría</div>
+    </div>
+    <div style="padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px" id="limites-grid"></div>
   </div>
 
   <div class="footer">
-    <button class="btn" onclick="exportarTxt()">Exportar resumen</button>
-    <button class="btn btn-primary" onclick="guardar()">Guardar datos</button>
+    <button class="btn" onclick="resetMes()">Nuevo mes</button>
+    <button class="btn" onclick="guardar()">💾 Guardar</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const CATS_ING = ['Salario','Freelance','Bono','Venta','Otro'];
-const CATS_GAS = ['Alimentación','Transporte','Salud','Educación','Servicios','Entretenimiento','Ropa','Hogar','Ahorro','Otro'];
+const CATS_ING  = ['Salario','Freelance','Bono','Venta','Otro'];
+const CATS_FIJO = ['Internet / teléfono','Préstamo / deuda','Netflix','Spotify','Suscripción','Alquiler','Otro'];
+const CATS_GAS  = ['Alimentación','Transporte','Salud','Educación','Hogar','Ropa','Otro'];
+const CATS_HOR  = ['☕ Café','🍔 Comida rápida','🚌 Pasaje','🛒 Tienda','🎮 Ocio','💊 Farmacia','📦 Otro'];
 
 let data = {
-  ing: [{ desc:'Salario ISSS Santa Tecla', cat:'Salario', fecha:'', monto:0 }],
-  gas: [
-    { desc:'Alimentación', cat:'Alimentación', fecha:'', monto:0 },
-    { desc:'Transporte', cat:'Transporte', fecha:'', monto:0 },
-    { desc:'Servicios (agua/luz/internet)', cat:'Servicios', fecha:'', monto:0 },
+  ing: [
+    {desc:'Salario ISSS Santa Tecla', cat:'Salario', fecha:'', monto:0}
   ],
-  deu: [{ desc:'', total:0, cuota:0, saldo:0 }]
+  fijos: [
+    {desc:'Internet / teléfono', cat:'Internet / teléfono', pagado:false, monto:0},
+    {desc:'Préstamo / cuota', cat:'Préstamo / deuda', pagado:false, monto:0},
+    {desc:'Netflix', cat:'Netflix', pagado:false, monto:0},
+  ],
+  hormiga: [],
+  gas: [],
+  deu: [],
+  limites: {
+    '☕ Café': 20,
+    '🍔 Comida rápida': 30,
+    'Alimentación': 150,
+    'Transporte': 50,
+    'Ocio': 40
+  }
 };
 
-function fmt(n){ return '$' + parseFloat(n||0).toFixed(2); }
-function today(){ return new Date().toISOString().split('T')[0]; }
+const fmt = n => '$' + parseFloat(n||0).toFixed(2);
+const today = () => new Date().toISOString().split('T')[0];
+const sum = arr => arr.reduce((s,r)=>s+(parseFloat(r.monto)||0),0);
 
-function catOpts(arr, sel){
-  return arr.map(c=>`<option${c===sel?' selected':''}>${c}</option>`).join('');
+// ── Mes progress ────────────────────────────────────────────────────────────
+function updateMesBar(){
+  const now = new Date();
+  const total = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  const pct = Math.round((now.getDate()/total)*100);
+  document.getElementById('mes-bar').style.width = pct+'%';
+  document.getElementById('dias-lbl').textContent = `Día ${now.getDate()} de ${total} (${pct}%)`;
 }
 
+// ── Render ingresos ─────────────────────────────────────────────────────────
 function renderIng(){
   const tb = document.getElementById('tb-ing');
   tb.innerHTML = '';
   data.ing.forEach((r,i)=>{
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input value="${r.desc}" placeholder="Ej: Salario" oninput="data.ing[${i}].desc=this.value"></td>
-      <td class="hide-sm"><select onchange="data.ing[${i}].cat=this.value">${catOpts(CATS_ING,r.cat)}</select></td>
-      <td class="hide-sm"><input type="date" value="${r.fecha}" style="width:130px" oninput="data.ing[${i}].fecha=this.value"></td>
-      <td style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
-        <span style="color:var(--text2);font-size:12px">$</span>
-        <input type="number" value="${r.monto}" min="0" step="0.01" style="width:90px" oninput="data.ing[${i}].monto=parseFloat(this.value)||0;recalc()">
+      <td><input type="text" value="${r.desc}" placeholder="Ej: Salario" oninput="data.ing[${i}].desc=this.value"></td>
+      <td class="hide-sm"><select onchange="data.ing[${i}].cat=this.value">${CATS_ING.map(c=>`<option${c===r.cat?' selected':''}>${c}</option>`).join('')}</select></td>
+      <td class="hide-sm"><input type="date" value="${r.fecha}" style="width:120px" oninput="data.ing[${i}].fecha=this.value"></td>
+      <td style="text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:4px">
+        <span style="color:var(--text2);font-size:11px">$</span>
+        <input type="number" value="${r.monto}" min="0" step="0.01" style="width:85px" oninput="data.ing[${i}].monto=parseFloat(this.value)||0;recalc()">
       </td>
-      <td><button class="del-btn" onclick="del('ing',${i})">×</button></td>`;
+      <td><button class="del-btn" onclick="data.ing.splice(${i},1);render()">×</button></td>`;
     tb.appendChild(tr);
   });
 }
 
+// ── Render fijos ────────────────────────────────────────────────────────────
+function renderFijos(){
+  const tb = document.getElementById('tb-fij');
+  tb.innerHTML = '';
+  data.fijos.forEach((r,i)=>{
+    const tr = document.createElement('tr');
+    const lbl = r.pagado
+      ? `<span class="pagado-label pagado-si">✓ Pagado</span>`
+      : `<span class="pagado-label pagado-no">Pendiente</span>`;
+    tr.innerHTML = `
+      <td><input type="text" value="${r.desc}" placeholder="Ej: Netflix" oninput="data.fijos[${i}].desc=this.value"></td>
+      <td class="hide-sm"><select onchange="data.fijos[${i}].cat=this.value">${CATS_FIJO.map(c=>`<option${c===r.cat?' selected':''}>${c}</option>`).join('')}</select></td>
+      <td style="text-align:center">
+        <div class="chk-wrap" style="justify-content:center">
+          <input type="checkbox" ${r.pagado?'checked':''} onchange="data.fijos[${i}].pagado=this.checked;renderFijos();recalc()">
+          ${lbl}
+        </div>
+      </td>
+      <td style="text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:4px">
+        <span style="color:var(--text2);font-size:11px">$</span>
+        <input type="number" value="${r.monto}" min="0" step="0.01" style="width:85px" oninput="data.fijos[${i}].monto=parseFloat(this.value)||0;recalc()">
+      </td>
+      <td><button class="del-btn" onclick="data.fijos.splice(${i},1);render()">×</button></td>`;
+    tb.appendChild(tr);
+  });
+  const total = data.fijos.length;
+  const pagados = data.fijos.filter(r=>r.pagado).length;
+  document.getElementById('fijos-check').textContent = `${pagados}/${total} pagados`;
+}
+
+// ── Render hormiga ──────────────────────────────────────────────────────────
+function renderHormiga(){
+  const lista = document.getElementById('lista-hormiga');
+  lista.innerHTML = '';
+  if(data.hormiga.length === 0){
+    lista.innerHTML = '<div style="padding:12px 14px;font-size:12px;color:var(--text3)">Sin gastos hormiga registrados hoy.</div>';
+    return;
+  }
+  data.hormiga.forEach((r,i)=>{
+    const div = document.createElement('div');
+    div.className = 'hormiga-item';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px">
+        <span>${r.desc||'Gasto'}</span>
+        <span class="hormiga-tag">${r.cat}</span>
+        <span style="font-size:11px;color:var(--text3)">${r.fecha||''}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-weight:600">${fmt(r.monto)}</span>
+        <button class="del-btn" onclick="data.hormiga.splice(${i},1);renderHormiga();recalc()">×</button>
+      </div>`;
+    lista.appendChild(div);
+  });
+}
+
+// ── Render otros gastos ─────────────────────────────────────────────────────
 function renderGas(){
   const tb = document.getElementById('tb-gas');
   tb.innerHTML = '';
   data.gas.forEach((r,i)=>{
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input value="${r.desc}" placeholder="Ej: Supermercado" oninput="data.gas[${i}].desc=this.value"></td>
-      <td class="hide-sm"><select onchange="data.gas[${i}].cat=this.value">${catOpts(CATS_GAS,r.cat)}</select></td>
-      <td class="hide-sm"><input type="date" value="${r.fecha}" style="width:130px" oninput="data.gas[${i}].fecha=this.value"></td>
-      <td style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
-        <span style="color:var(--text2);font-size:12px">$</span>
-        <input type="number" value="${r.monto}" min="0" step="0.01" style="width:90px" oninput="data.gas[${i}].monto=parseFloat(this.value)||0;recalc()">
+      <td><input type="text" value="${r.desc}" placeholder="Descripción" oninput="data.gas[${i}].desc=this.value"></td>
+      <td class="hide-sm"><select onchange="data.gas[${i}].cat=this.value">${CATS_GAS.map(c=>`<option${c===r.cat?' selected':''}>${c}</option>`).join('')}</select></td>
+      <td class="hide-sm"><input type="date" value="${r.fecha}" style="width:120px" oninput="data.gas[${i}].fecha=this.value"></td>
+      <td style="text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:4px">
+        <span style="color:var(--text2);font-size:11px">$</span>
+        <input type="number" value="${r.monto}" min="0" step="0.01" style="width:85px" oninput="data.gas[${i}].monto=parseFloat(this.value)||0;recalc()">
       </td>
-      <td><button class="del-btn" onclick="del('gas',${i})">×</button></td>`;
+      <td><button class="del-btn" onclick="data.gas.splice(${i},1);render()">×</button></td>`;
     tb.appendChild(tr);
   });
 }
 
+// ── Render deudas ───────────────────────────────────────────────────────────
 function renderDeu(){
   const tb = document.getElementById('tb-deu');
   tb.innerHTML = '';
   data.deu.forEach((r,i)=>{
     const pct = r.total > 0 ? Math.min(100,Math.round((r.saldo/r.total)*100)) : 0;
-    const barColor = pct > 70 ? 'var(--red)' : pct > 35 ? 'var(--amber)' : 'var(--green)';
+    const barColor = pct>70?'var(--red)':pct>35?'var(--amber)':'var(--green)';
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input value="${r.desc}" placeholder="Ej: Banco Agrícola" oninput="data.deu[${i}].desc=this.value"></td>
-      <td class="hide-sm" style="display:flex;align-items:center;gap:4px">
-        <span style="color:var(--text2);font-size:12px">$</span>
-        <input type="number" value="${r.total}" min="0" step="0.01" style="width:90px" oninput="data.deu[${i}].total=parseFloat(this.value)||0;recalc()">
+      <td><input type="text" value="${r.desc}" placeholder="Ej: Banco Agrícola" oninput="data.deu[${i}].desc=this.value"></td>
+      <td class="hide-sm" style="display:flex;align-items:center;gap:3px">
+        <span style="color:var(--text2);font-size:11px">$</span>
+        <input type="number" value="${r.total}" min="0" step="0.01" style="width:80px" oninput="data.deu[${i}].total=parseFloat(this.value)||0;recalc()">
       </td>
-      <td style="display:flex;align-items:center;gap:4px">
-        <span style="color:var(--text2);font-size:12px">$</span>
-        <input type="number" value="${r.cuota}" min="0" step="0.01" style="width:90px" oninput="data.deu[${i}].cuota=parseFloat(this.value)||0;recalc()">
+      <td style="display:flex;align-items:center;gap:3px">
+        <span style="color:var(--text2);font-size:11px">$</span>
+        <input type="number" value="${r.cuota}" min="0" step="0.01" style="width:80px" oninput="data.deu[${i}].cuota=parseFloat(this.value)||0;recalc()">
       </td>
       <td>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;align-items:center;gap:4px">
-            <span style="color:var(--text2);font-size:12px">$</span>
-            <input type="number" value="${r.saldo}" min="0" step="0.01" style="width:90px" oninput="data.deu[${i}].saldo=parseFloat(this.value)||0;recalc()">
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <div style="display:flex;align-items:center;gap:3px">
+            <span style="color:var(--text2);font-size:11px">$</span>
+            <input type="number" value="${r.saldo}" min="0" step="0.01" style="width:80px" oninput="data.deu[${i}].saldo=parseFloat(this.value)||0;recalc()">
           </div>
-          <div class="prog-wrap">
-            <div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${barColor}"></div></div>
-            <span class="prog-lbl">${pct}%</span>
-          </div>
+          <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${barColor}"></div></div><span class="prog-lbl">${pct}%</span></div>
         </div>
       </td>
-      <td><button class="del-btn" onclick="del('deu',${i})">×</button></td>`;
+      <td><button class="del-btn" onclick="data.deu.splice(${i},1);render()">×</button></td>`;
     tb.appendChild(tr);
   });
 }
 
+// ── Render límites ──────────────────────────────────────────────────────────
+function renderLimites(){
+  const grid = document.getElementById('limites-grid');
+  grid.innerHTML = '';
+  Object.entries(data.limites).forEach(([cat, lim])=>{
+    const gastado = getCatTotal(cat);
+    const pct = lim > 0 ? Math.min(100, Math.round((gastado/lim)*100)) : 0;
+    const cls = pct >= 100 ? 'limit-over' : pct >= 75 ? 'limit-warn' : 'limit-ok';
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--bg2);border-radius:8px;padding:10px 12px';
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:12px;font-weight:500">${cat}</span>
+        <span class="limit-badge ${cls}">${pct}%</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:5px">${fmt(gastado)} / 
+        <input type="number" value="${lim}" min="0" step="1" style="width:55px;border:none;border-bottom:1px dashed var(--border);background:transparent;font-size:11px;color:var(--text2);text-align:right" oninput="data.limites['${cat}']=parseFloat(this.value)||0;recalc()">
+      </div>
+      <div class="prog-bg" style="height:5px"><div class="prog-fill" style="width:${pct}%;background:${pct>=100?'var(--red)':pct>=75?'var(--amber)':'var(--green)'}"></div></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function getCatTotal(cat){
+  let t = 0;
+  data.hormiga.filter(r=>r.cat===cat).forEach(r=>t+=parseFloat(r.monto)||0);
+  data.gas.filter(r=>r.cat===cat).forEach(r=>t+=parseFloat(r.monto)||0);
+  data.fijos.filter(r=>r.cat===cat).forEach(r=>t+=parseFloat(r.monto)||0);
+  return t;
+}
+
+// ── Recalc ──────────────────────────────────────────────────────────────────
 function recalc(){
-  const ti = data.ing.reduce((s,r)=>s+(r.monto||0),0);
-  const tg = data.gas.reduce((s,r)=>s+(r.monto||0),0);
-  const td = data.deu.reduce((s,r)=>s+(r.saldo||0),0);
-  const bn = ti - tg;
-  document.getElementById('m-ing').textContent = fmt(ti);
-  document.getElementById('m-gas').textContent = fmt(tg);
-  document.getElementById('m-deu').textContent = fmt(td);
-  const bel = document.getElementById('m-bal');
-  bel.textContent = fmt(bn);
-  bel.className = 'metric-value ' + (bn >= 0 ? 'c-green' : 'c-red');
-  document.getElementById('h-ing').textContent = fmt(ti);
-  document.getElementById('h-gas').textContent = fmt(tg);
-  document.getElementById('h-deu').textContent = fmt(td) + ' pendiente';
+  const ti  = sum(data.ing);
+  const tfij = sum(data.fijos);
+  const thor = sum(data.hormiga);
+  const tgas = sum(data.gas);
+  const tdeu = data.deu.reduce((s,r)=>s+(parseFloat(r.saldo)||0),0);
+  const bal  = ti - tfij - thor - tgas;
+
+  document.getElementById('m-ing').textContent   = fmt(ti);
+  document.getElementById('m-fij').textContent   = fmt(tfij);
+  document.getElementById('m-hor').textContent   = fmt(thor);
+  document.getElementById('m-gas').textContent   = fmt(tgas);
+  document.getElementById('h-ing').textContent   = fmt(ti);
+  document.getElementById('h-fij').textContent   = fmt(tfij);
+  document.getElementById('h-hor').textContent   = fmt(thor);
+  document.getElementById('h-gas').textContent   = fmt(tgas);
+  document.getElementById('h-deu').textContent   = fmt(tdeu) + ' pendiente';
+
+  const pagFij = data.fijos.filter(r=>r.pagado).length;
+  const pendFij = data.fijos.length - pagFij;
+  document.getElementById('m-fij-sub').textContent = pendFij > 0 ? `⚠ ${pendFij} pendiente${pendFij>1?'s':''}` : '✓ Todo pagado';
+  document.getElementById('m-fij-sub').style.color = pendFij > 0 ? 'var(--amber)' : 'var(--green)';
+
+  const balEl = document.getElementById('m-bal');
+  balEl.textContent = fmt(bal);
+  balEl.className = 'metric-value ' + (bal >= 0 ? 'c-green' : 'c-red');
+  document.getElementById('m-bal-sub').textContent = bal >= 0 ? 'disponible' : 'en déficit';
+
+  // Alertas
+  const alerts = [];
+  Object.entries(data.limites).forEach(([cat, lim])=>{
+    const g = getCatTotal(cat);
+    if(lim > 0 && g >= lim) alerts.push(`${cat}: ${fmt(g)} (límite ${fmt(lim)})`);
+  });
+  const ab = document.getElementById('alert-bar');
+  if(alerts.length > 0){
+    ab.classList.add('show');
+    document.getElementById('alert-txt').textContent = 'Límite superado en: ' + alerts.join(' · ');
+  } else {
+    ab.classList.remove('show');
+  }
+
+  renderLimites();
 }
 
-function render(){ renderIng(); renderGas(); renderDeu(); recalc(); }
+// ── Add helpers ─────────────────────────────────────────────────────────────
+function addIng(){ data.ing.push({desc:'',cat:'Salario',fecha:today(),monto:0}); render(); }
+function addFijo(){ data.fijos.push({desc:'',cat:'Otro',pagado:false,monto:0}); render(); }
+function addGas(){ data.gas.push({desc:'',cat:'Alimentación',fecha:today(),monto:0}); render(); }
+function addDeu(){ data.deu.push({desc:'',total:0,cuota:0,saldo:0}); render(); }
 
-function add(tipo){
-  if(tipo==='ing') data.ing.push({desc:'',cat:'Salario',fecha:today(),monto:0});
-  if(tipo==='gas') data.gas.push({desc:'',cat:'Alimentación',fecha:today(),monto:0});
-  if(tipo==='deu') data.deu.push({desc:'',total:0,cuota:0,saldo:0});
-  render();
+function addHormiga(){
+  const desc  = document.getElementById('hor-desc').value.trim();
+  const cat   = document.getElementById('hor-cat').value;
+  const monto = parseFloat(document.getElementById('hor-monto').value) || 0;
+  if(!monto){ toast('⚠ Ingresa un monto'); return; }
+  data.hormiga.push({desc: desc||cat, cat, fecha: today(), monto});
+  document.getElementById('hor-desc').value  = '';
+  document.getElementById('hor-monto').value = '';
+  document.getElementById('hor-desc').focus();
+  renderHormiga();
+  recalc();
+  toast('✓ Gasto hormiga agregado');
 }
-
-function del(tipo,i){ data[tipo].splice(i,1); render(); }
 
 function setMes(v){ document.getElementById('mes-lbl').textContent = v; }
 
-function guardar(){
-  try {
-    localStorage.setItem('cf_data', JSON.stringify(data));
-    toast('✅ Datos guardados correctamente');
-  } catch(e){ toast('No se pudo guardar en este navegador'); }
+function resetMes(){
+  if(!confirm('¿Iniciar un nuevo mes? Se borrarán los gastos hormiga y se desmarcarán los fijos.')) return;
+  data.hormiga = [];
+  data.fijos.forEach(r=>r.pagado=false);
+  render();
+  toast('✓ Mes reiniciado');
 }
 
-function exportarTxt(){
-  const mes = document.getElementById('mes-lbl').textContent;
-  const ti = data.ing.reduce((s,r)=>s+(r.monto||0),0);
-  const tg = data.gas.reduce((s,r)=>s+(r.monto||0),0);
-  const td = data.deu.reduce((s,r)=>s+(r.saldo||0),0);
-  const txt = [
-    `RESUMEN FINANCIERO — ${mes}`,
-    '─'.repeat(38),
-    `Ingresos:          ${fmt(ti)}`,
-    `Gastos:            ${fmt(tg)}`,
-    `Balance neto:      ${fmt(ti-tg)}`,
-    `Deudas pendientes: ${fmt(td)}`,
-    '',
-    'INGRESOS:',
-    ...data.ing.map(r=>`  · ${r.desc} (${r.cat}): ${fmt(r.monto)}`),
-    '',
-    'GASTOS:',
-    ...data.gas.map(r=>`  · ${r.desc} (${r.cat}): ${fmt(r.monto)}`),
-    '',
-    'DEUDAS:',
-    ...data.deu.map(r=>`  · ${r.desc}: saldo ${fmt(r.saldo)} | cuota ${fmt(r.cuota)}`),
-  ].join('\n');
-  const blob = new Blob([txt], {type:'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `Resumen_${mes.replace(' ','_')}.txt`;
-  a.click();
-  toast('📄 Resumen exportado');
+// ── Guardar / cargar ────────────────────────────────────────────────────────
+function guardar(){
+  try{ localStorage.setItem('cf_v2', JSON.stringify(data)); toast('✓ Guardado correctamente'); }
+  catch(e){ toast('No se pudo guardar'); }
+}
+
+function render(){
+  renderIng(); renderFijos(); renderHormiga(); renderGas(); renderDeu();
+  recalc();
 }
 
 function toast(msg){
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
 }
 
-// Load saved data
-try {
-  const saved = localStorage.getItem('cf_data');
-  if(saved) data = JSON.parse(saved);
-} catch(e){}
-
+// Init
+try{
+  const saved = localStorage.getItem('cf_v2');
+  if(saved) data = {...data, ...JSON.parse(saved)};
+}catch(e){}
+updateMesBar();
 render();
 </script>
 </body>
