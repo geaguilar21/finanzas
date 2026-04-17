@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="💰 Finanzas">
-<title>💰 Finanzas — Gerardo</title>
+<title>💰 Control Financiero</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -268,6 +268,14 @@ input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--
     <div style="padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px" id="limites-grid"></div>
   </div>
 
+  <!-- HISTORIAL MENSUAL -->
+  <div class="section" id="sec-historial" style="display:none">
+    <div class="sec-header">
+      <div class="sec-title"><span class="dot dot-blue"></span>Historial mensual</div>
+    </div>
+    <div id="lista-historial"></div>
+  </div>
+
   <div class="footer">
     <button class="btn" onclick="resetMes()">Nuevo mes</button>
     <button class="btn" onclick="importarDatos()">📂 Importar</button>
@@ -287,7 +295,7 @@ const CATS_HOR  = ['☕ Café','🍔 Comida rápida','🚌 Pasaje','🛒 Tienda'
 
 let data = {
   ing: [
-    {desc:'Salario ISSS Santa Tecla', cat:'Salario', fecha:'', monto:0}
+    {desc:'Salario', cat:'Salario', fecha:'', monto:0}
   ],
   fijos: [
     {desc:'Internet / teléfono', cat:'Internet / teléfono', pagado:false, monto:0},
@@ -303,7 +311,8 @@ let data = {
     'Alimentación': 150,
     'Transporte': 50,
     'Ocio': 40
-  }
+  },
+  historial: []
 };
 
 const fmt = n => '$' + parseFloat(n||0).toFixed(2);
@@ -544,11 +553,77 @@ function addHormiga(){
 function setMes(v){ document.getElementById('mes-lbl').textContent = v; }
 
 function resetMes(){
-  if(!confirm('¿Iniciar un nuevo mes? Se borrarán los gastos hormiga y se desmarcarán los fijos.')) return;
+  const mes = document.getElementById('mes-lbl').textContent;
+  const ti   = sum(data.ing);
+  const tfij = sum(data.fijos);
+  const thor = sum(data.hormiga);
+  const tgas = sum(data.gas);
+  const bal  = ti - tfij - thor - tgas;
+
+  if(!confirm(`¿Cerrar ${mes} e iniciar un nuevo mes?\n\nSaldo neto actual: ${fmt(bal)}`)) return;
+
+  // Guardar en historial
+  if(!data.historial) data.historial = [];
+  data.historial.unshift({
+    mes,
+    ingresos: ti,
+    gastos_fijos: tfij,
+    gastos_hormiga: thor,
+    otros_gastos: tgas,
+    saldo: bal,
+    fecha: new Date().toISOString()
+  });
+
+  // Arrastrar saldo si es positivo
+  const arrastrar = bal > 0 && confirm(`¿Arrastrar el saldo de ${fmt(bal)} al mes siguiente como ingreso?`);
+
+  // Limpiar mes
   data.hormiga = [];
+  data.gas = [];
   data.fijos.forEach(r=>r.pagado=false);
+  data.ing = [{desc:'Salario', cat:'Salario', fecha:'', monto:0}];
+
+  // Agregar saldo arrastrado
+  if(arrastrar){
+    data.ing.push({desc:`Saldo arrastrado de ${mes}`, cat:'Otro', fecha:today(), monto: parseFloat(bal.toFixed(2))});
+  }
+
+  // Avanzar mes en el selector
+  const sel = document.querySelector('select[onchange="setMes(this.value)"]');
+  if(sel && sel.selectedIndex < sel.options.length - 1){
+    sel.selectedIndex++;
+    setMes(sel.options[sel.selectedIndex].value);
+  }
+
+  guardar();
   render();
-  toast('✓ Mes reiniciado');
+  renderHistorial();
+  toast(`✓ ${mes} cerrado. ¡Nuevo mes iniciado!`);
+}
+
+function renderHistorial(){
+  const lista = document.getElementById('lista-historial');
+  const sec   = document.getElementById('sec-historial');
+  if(!data.historial || data.historial.length === 0){ sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  lista.innerHTML = '';
+  data.historial.forEach(h => {
+    const pos = h.saldo >= 0;
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px';
+    div.innerHTML = `
+      <div>
+        <div style="font-size:13px;font-weight:600">${h.mes}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">
+          Ingresos ${fmt(h.ingresos)} · Gastos ${fmt((h.gastos_fijos||0)+(h.gastos_hormiga||0)+(h.otros_gastos||0))}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:15px;font-weight:600;color:${pos?'var(--green)':'var(--red)'}">${fmt(h.saldo)}</div>
+        <div style="font-size:11px;color:var(--text2)">${pos?'sobrante':'déficit'}</div>
+      </div>`;
+    lista.appendChild(div);
+  });
 }
 
 // ── Guardar / cargar ────────────────────────────────────────────────────────
@@ -594,6 +669,7 @@ function leerArchivo(input){
 
 function render(){
   renderIng(); renderFijos(); renderHormiga(); renderGas(); renderDeu();
+  renderHistorial();
   recalc();
 }
 
@@ -611,7 +687,5 @@ try{
 updateMesBar();
 render();
 </script>
-</body>
-</html>
 </body>
 </html>
