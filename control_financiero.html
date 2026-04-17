@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="💰 Finanzas">
 <title>💰 Finanzas — Gerardo</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -267,10 +270,13 @@ input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--
 
   <div class="footer">
     <button class="btn" onclick="resetMes()">Nuevo mes</button>
-    <button class="btn" onclick="guardar()">💾 Guardar</button>
+    <button class="btn" onclick="importarDatos()">📂 Importar</button>
+    <button class="btn" onclick="exportarDatos()">📤 Exportar</button>
+    <button class="btn btn-primary" onclick="guardar()">💾 Guardar</button>
   </div>
 </div>
 
+<input type="file" id="file-import" accept=".json" style="display:none" onchange="leerArchivo(this)">
 <div class="toast" id="toast"></div>
 
 <script>
@@ -551,6 +557,41 @@ function guardar(){
   catch(e){ toast('No se pudo guardar'); }
 }
 
+function exportarDatos(){
+  const mes = document.getElementById('mes-lbl').textContent.replace(' ','_');
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `finanzas_${mes}.json`;
+  a.click();
+  toast('📤 Respaldo exportado');
+}
+
+function importarDatos(){
+  document.getElementById('file-import').click();
+}
+
+function leerArchivo(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed.ing && !parsed.fijos) throw new Error('Formato inválido');
+      data = {...data, ...parsed};
+      guardar();
+      render();
+      toast('✓ Datos importados correctamente');
+    } catch(err){
+      toast('⚠ Archivo inválido');
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
 function render(){
   renderIng(); renderFijos(); renderHormiga(); renderGas(); renderDeu();
   recalc();
@@ -570,5 +611,7 @@ try{
 updateMesBar();
 render();
 </script>
+</body>
+</html>
 </body>
 </html>
